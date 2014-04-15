@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Owin.Security.MicrosoftAccount.pl</id>
+    <version>2.0.0</version>
+    <title>Microsoft Owin Security Microsoft Account — zasoby dla języka polskiego</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://www.microsoft.com/web/webpi/eula/aspnetcomponent_rtw_PLK.htm</licenseUrl>
+    <projectUrl>http://katanaproject.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Ten pakiet zawiera zestawy satelickie dla języka polskiego dotyczące produktu Microsoft Owin Security Microsoft Account</description>
+    <summary>Zasoby dla języka polskiego dotyczące pakietu Microsoft.Owin.Security.MicrosoftAccount.</summary>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <language>pl</language>
+    <tags>OWIN</tags>
+    <dependencies>
+      <dependency id="Microsoft.Owin.Security.MicrosoftAccount" version="[2.0.0]" />
+    </dependencies>
+  </metadata>
+</package>

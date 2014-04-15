@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AspNet.Identity.Core.pl</id>
+    <version>1.0.0</version>
+    <title>Polski - zasoby pakietu Microsoft ASP.NET Identity Core</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://www.microsoft.com/web/webpi/eula/aspnetcomponent_rtw_PLK.htm</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Ten pakiet zawiera zestawy towarzyszące bibliotek pakietu ASP.NET Identity Core następującego języka: Polski.</description>
+    <summary>Polski – zasoby pakietu Microsoft.AspNet.Identity.Core</summary>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <language>pl</language>
+    <tags>Identity Membership</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.Identity.Core" version="[1.0.0]" />
+    </dependencies>
+  </metadata>
+</package>
