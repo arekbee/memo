@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bazaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="rola">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="slowko">
+          <Key>
+            <PropertyRef Name="eng" />
+          </Key>
+          <Property Name="eng" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="pl" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="statystykaUzytkownika">
+          <Key>
+            <PropertyRef Name="nazwa" />
+          </Key>
+          <Property Name="nazwa" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="dobreOdpowiedzi" Type="int" Nullable="false" />
+          <Property Name="zleOdpowiedzi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ustawieniaZagadki">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="opis" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="uzytkownik">
+          <Key>
+            <PropertyRef Name="nazwa" />
+          </Key>
+          <Property Name="nazwa" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="haslo" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="rola" Type="int" Nullable="false" />
+          <Property Name="ustawienia" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__statystyk__nazwa__1DE57479">
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+          <End Role="statystykaUzytkownika" Type="Self.statystykaUzytkownika" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="nazwa" />
+            </Principal>
+            <Dependent Role="statystykaUzytkownika">
+              <PropertyRef Name="nazwa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__uzytkowni__ustaw__1920BF5C">
+          <End Role="ustawieniaZagadki" Type="Self.ustawieniaZagadki" Multiplicity="1" />
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ustawieniaZagadki">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="uzytkownik">
+              <PropertyRef Name="ustawienia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__uzytkownik__rola__182C9B23">
+          <End Role="rola" Type="Self.rola" Multiplicity="1" />
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rola">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="uzytkownik">
+              <PropertyRef Name="rola" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bazaModelStoreContainer">
+          <EntitySet Name="rola" EntityType="Self.rola" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="slowko" EntityType="Self.slowko" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="statystykaUzytkownika" EntityType="Self.statystykaUzytkownika" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ustawieniaZagadki" EntityType="Self.ustawieniaZagadki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="uzytkownik" EntityType="Self.uzytkownik" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__statystyk__nazwa__1DE57479" Association="Self.FK__statystyk__nazwa__1DE57479">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="statystykaUzytkownika" EntitySet="statystykaUzytkownika" />
+          </AssociationSet>
+          <AssociationSet Name="FK__uzytkowni__ustaw__1920BF5C" Association="Self.FK__uzytkowni__ustaw__1920BF5C">
+            <End Role="ustawieniaZagadki" EntitySet="ustawieniaZagadki" />
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+          </AssociationSet>
+          <AssociationSet Name="FK__uzytkownik__rola__182C9B23" Association="Self.FK__uzytkownik__rola__182C9B23">
+            <End Role="rola" EntitySet="rola" />
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bazaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="rola">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="uzytkownik" Relationship="Self.FK__uzytkownik__rola__182C9B23" FromRole="rola" ToRole="uzytkownik" />
+        </EntityType>
+        <EntityType Name="slowko">
+          <Key>
+            <PropertyRef Name="eng" />
+          </Key>
+          <Property Name="eng" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="pl" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="statystykaUzytkownika">
+          <Key>
+            <PropertyRef Name="nazwa" />
+          </Key>
+          <Property Name="nazwa" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="dobreOdpowiedzi" Type="Int32" Nullable="false" />
+          <Property Name="zleOdpowiedzi" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="uzytkownik" Relationship="Self.FK__statystyk__nazwa__1DE57479" FromRole="statystykaUzytkownika" ToRole="uzytkownik" />
+        </EntityType>
+        <EntityType Name="ustawieniaZagadki">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="opis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="uzytkownik" Relationship="Self.FK__uzytkowni__ustaw__1920BF5C" FromRole="ustawieniaZagadki" ToRole="uzytkownik" />
+        </EntityType>
+        <EntityType Name="uzytkownik">
+          <Key>
+            <PropertyRef Name="nazwa" />
+          </Key>
+          <Property Name="nazwa" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="haslo" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="rola" Type="Int32" Nullable="false" />
+          <Property Name="ustawienia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="rola1" Relationship="Self.FK__uzytkownik__rola__182C9B23" FromRole="uzytkownik" ToRole="rola" />
+          <NavigationProperty Name="statystykaUzytkownika" Relationship="Self.FK__statystyk__nazwa__1DE57479" FromRole="uzytkownik" ToRole="statystykaUzytkownika" />
+          <NavigationProperty Name="ustawieniaZagadki" Relationship="Self.FK__uzytkowni__ustaw__1920BF5C" FromRole="uzytkownik" ToRole="ustawieniaZagadki" />
+        </EntityType>
+        <Association Name="FK__uzytkownik__rola__182C9B23">
+          <End Role="rola" Type="Self.rola" Multiplicity="1" />
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rola">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="uzytkownik">
+              <PropertyRef Name="rola" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__statystyk__nazwa__1DE57479">
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+          <End Role="statystykaUzytkownika" Type="Self.statystykaUzytkownika" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="nazwa" />
+            </Principal>
+            <Dependent Role="statystykaUzytkownika">
+              <PropertyRef Name="nazwa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__uzytkowni__ustaw__1920BF5C">
+          <End Role="ustawieniaZagadki" Type="Self.ustawieniaZagadki" Multiplicity="1" />
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ustawieniaZagadki">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="uzytkownik">
+              <PropertyRef Name="ustawienia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bazaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="rola" EntityType="Self.rola" />
+          <EntitySet Name="slowko" EntityType="Self.slowko" />
+          <EntitySet Name="statystykaUzytkownika" EntityType="Self.statystykaUzytkownika" />
+          <EntitySet Name="ustawieniaZagadki" EntityType="Self.ustawieniaZagadki" />
+          <EntitySet Name="uzytkownik" EntityType="Self.uzytkownik" />
+          <AssociationSet Name="FK__uzytkownik__rola__182C9B23" Association="Self.FK__uzytkownik__rola__182C9B23">
+            <End Role="rola" EntitySet="rola" />
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+          </AssociationSet>
+          <AssociationSet Name="FK__statystyk__nazwa__1DE57479" Association="Self.FK__statystyk__nazwa__1DE57479">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="statystykaUzytkownika" EntitySet="statystykaUzytkownika" />
+          </AssociationSet>
+          <AssociationSet Name="FK__uzytkowni__ustaw__1920BF5C" Association="Self.FK__uzytkowni__ustaw__1920BF5C">
+            <End Role="ustawieniaZagadki" EntitySet="ustawieniaZagadki" />
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bazaModelStoreContainer" CdmEntityContainer="bazaEntities">
+          <EntitySetMapping Name="rola">
+            <EntityTypeMapping TypeName="bazaModel.rola">
+              <MappingFragment StoreEntitySet="rola">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="slowko">
+            <EntityTypeMapping TypeName="bazaModel.slowko">
+              <MappingFragment StoreEntitySet="slowko">
+                <ScalarProperty Name="eng" ColumnName="eng" />
+                <ScalarProperty Name="pl" ColumnName="pl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="statystykaUzytkownika">
+            <EntityTypeMapping TypeName="bazaModel.statystykaUzytkownika">
+              <MappingFragment StoreEntitySet="statystykaUzytkownika">
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="dobreOdpowiedzi" ColumnName="dobreOdpowiedzi" />
+                <ScalarProperty Name="zleOdpowiedzi" ColumnName="zleOdpowiedzi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ustawieniaZagadki">
+            <EntityTypeMapping TypeName="bazaModel.ustawieniaZagadki">
+              <MappingFragment StoreEntitySet="ustawieniaZagadki">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="uzytkownik">
+            <EntityTypeMapping TypeName="bazaModel.uzytkownik">
+              <MappingFragment StoreEntitySet="uzytkownik">
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="rola" ColumnName="rola" />
+                <ScalarProperty Name="ustawienia" ColumnName="ustawienia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -43,6 +43,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -160,11 +162,42 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SlowkoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BazaModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BazaModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BazaModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BazaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BazaModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BazaModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\rola.cs">
+      <DependentUpon>BazaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\slowko.cs">
+      <DependentUpon>BazaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\statystykaUzytkownika.cs">
+      <DependentUpon>BazaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ustawieniaZagadki.cs">
+      <DependentUpon>BazaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\uzytkownik.cs">
+      <DependentUpon>BazaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -181,6 +214,23 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\BazaModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BazaModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BazaModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BazaModel.edmx</DependentUpon>
+      <LastGenOutput>BazaModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BazaModel.edmx.diagram">
+      <DependentUpon>BazaModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\BazaModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BazaModel.edmx</DependentUpon>
+      <LastGenOutput>BazaModel.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -218,8 +268,11 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Slowko\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -227,6 +280,7 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
