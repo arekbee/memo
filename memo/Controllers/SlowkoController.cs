@@ -17,14 +17,26 @@ namespace memo.Controllers
 
         private bazaEntities db = new bazaEntities();
 
+
+        public ActionResult Test()
+        {
+            return View();
+        }
+
+
         [HttpGet]
         public ActionResult Index()
         {
+
+
+
+            string na = User.Identity.Name;
+            
             string username = null;
             if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
-            {
-                //let us take out the username now                
-                username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+            {             
+                //pobranie nazwy zalogowanego uzytkownika
+                username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name; 
                 @ViewBag.Login = username;
             }
 
@@ -42,8 +54,6 @@ namespace memo.Controllers
         {
             return View();
         }
-
-
         
         [HttpPost]
         public ActionResult Rejestracja(RejestracjaModel model)
@@ -77,9 +87,8 @@ namespace memo.Controllers
         }
 
         [HttpPost]
-        public ActionResult Zaloguj(LogowanieModel model)
+        public ActionResult Zaloguj(LogowanieModel model, string returnUrl)
         {
-            
             if (ModelState.IsValid)
             {
                 string login = model.nazwa.Trim();
@@ -95,6 +104,11 @@ namespace memo.Controllers
                         ViewBag.Login = login;
                         ViewBag.WiadLogowanie = "Zalogowano";
                         FormsAuthentication.SetAuthCookie(login, true);
+                        if((Url.IsLocalUrl(returnUrl)) && (returnUrl.Length > 1) && (returnUrl.StartsWith("/")) && (!returnUrl.StartsWith("//")) && (!returnUrl.StartsWith("/\\")))
+                        {
+                            return Redirect(returnUrl);
+                        }
+
                         return RedirectToAction("Index");
                     }
                 }
@@ -114,5 +128,15 @@ namespace memo.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
+
+        [Authorize(Users = "nemo")]
+        public string Zadanie()
+        {
+            return "Tajne";
+        }
+
+
+
+
 	}
 }
