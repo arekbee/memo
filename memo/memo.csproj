@@ -276,7 +276,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Slowko\Index.cshtml" />
     <Content Include="Views\Slowko\Zaloguj.cshtml" />
-    <Content Include="Views\Slowko\Zadanie.cshtml" />
+    <Content Include="Views\Slowko\Kokpit.cshtml" />
     <Content Include="Views\Slowko\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>

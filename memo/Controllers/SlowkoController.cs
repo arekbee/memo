@@ -23,20 +23,14 @@ namespace memo.Controllers
             return View();
         }
 
-
         [HttpGet]
         public ActionResult Index()
         {
-
-
-
-            string na = User.Identity.Name;
-            
             string username = null;
             if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
             {             
                 //pobranie nazwy zalogowanego uzytkownika
-                username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name; 
+                username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
                 @ViewBag.Login = username;
             }
 
@@ -83,6 +77,10 @@ namespace memo.Controllers
         [HttpGet]
         public ActionResult Zaloguj()
         {
+            /*if (User.Identity.Name.Count() > 0)
+            {
+                FormsAuthentication.SignOut();
+            }*/
             return View();
         }
 
@@ -129,14 +127,45 @@ namespace memo.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Users = "nemo")]
-        public string Zadanie()
+        public string userRole(string user)
         {
-            return "Tajne";
+            if(user != null)
+            {
+                var uzytkownik = db.uzytkownik.Where(x => x.nazwa == user);
+                if (uzytkownik.Count() > 0)
+                {
+                    return uzytkownik.First().rola1.nazwa.Trim();
+                }
+            }
+            
+            return "";
         }
 
+        public ActionResult Kokpit()
+        {
+            ViewBag.Rola = "BrakUprawnien";
+            if(User.Identity.Name.Count() > 0) //zalogowany
+            {
+                ViewBag.Imie = userRole(User.Identity.Name);
+                if(userRole(User.Identity.Name).Equals("administrator")) //user jest adminem
+                {
+                    ViewBag.Komunikat = "TAJNE INFORMACJE";
+                    ViewBag.Rola = "Admin";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Komunikat = "Użytkownik '" + User.Identity.Name + "' nie posiada wystarczających uprawnień";
+                    return View();
+                }
+            }
+            else
+            {
+                ViewBag.Komunikat = "Musisz się zalogować.";
+                return View();
+            }
 
-
-
+            return View();
+        }
 	}
 }

@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Kokpit";
+}
+
+<h2>Kokpit</h2>
+
+
+@ViewBag.Komunikat
+
+@if (ViewBag.Rola == "BrakUprawnien")
+{
+    <div>
+        @Html.ActionLink("Zaloguj", "Zaloguj")
+    </div>
+}
+else
+{
+       @Html.DisplayText("asdas");
+}
+
