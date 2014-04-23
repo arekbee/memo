@@ -183,6 +183,7 @@
       <DependentUpon>BazaModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Konto.cs" />
     <Compile Include="Models\rola.cs">
       <DependentUpon>BazaModel.tt</DependentUpon>
     </Compile>
@@ -269,6 +270,8 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Slowko\Index.cshtml" />
+    <Content Include="Views\Slowko\Rejestracja.cshtml" />
+    <Content Include="Views\Slowko\Zaloguj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

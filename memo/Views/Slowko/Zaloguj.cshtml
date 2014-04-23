@@ -1,0 +1,44 @@
+﻿@model memo.Models.LogowanieModel
+
+@{
+    ViewBag.Title = "Zaloguj";
+}
+
+<h2>Zaloguj</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nazwa, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nazwa)
+                @Html.ValidationMessageFor(model => model.nazwa)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.haslo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.haslo)
+                @Html.ValidationMessageFor(model => model.haslo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zaloguj" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@ViewBag.WiadLogowanie
+
+<div>
+    @Html.ActionLink("Stwórz nowe konto", "Rejestracja")
+</div>
