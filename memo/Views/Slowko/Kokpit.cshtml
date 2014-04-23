@@ -17,5 +17,47 @@
 else
 {
     @Html.Raw("Widok dla admina.");
+
+    using (Html.BeginForm("Edit", "Slowko", FormMethod.Post, new { login = "asdsd" }))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.Raw("Login")
+                    </th>
+                    <th>
+                        @Html.Raw("Rola")
+                    </th>
+                    <th>
+                        @Html.Raw("Opcja")
+                    </th>
+                    <th></th>
+                </tr>
+
+               
+                    <tr>
+                        <td>
+                           @Html.Raw("cos")
+                        </td>
+                        <td>
+                            @Html.Raw("Admin") @Html.RadioButton("opcjaRola", "Admin") <br>
+                            @Html.Raw("Zwykły") @Html.RadioButton("opcjaRola", "Zwykły") <br>
+
+                        </td>
+                        <td>
+                            @Html.Raw("cos")
+
+                            @Html.Display("opcjaRola")
+                        </td>
+                        <td>
+                            <input type="submit" value="Zapisz zmiany" />
+                        </td>
+                    </tr>
+                </table>
+        </div>
+    }
 }
 

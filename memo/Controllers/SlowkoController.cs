@@ -26,6 +26,7 @@ namespace memo.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            //return Redirect("dictionary.cambridge.org/media/english-polish/us_pron/t/thr/threa/threat.mp3"); //tylko do przetestowania ;)
             string username = null;
             if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
             {             
@@ -151,6 +152,7 @@ namespace memo.Controllers
                 {
                     ViewBag.Komunikat = "TAJNE INFORMACJE";
                     ViewBag.Rola = "Admin";
+                    ViewBag.MyList = db.uzytkownik.ToList();
                     return View();
                 }
                 else
@@ -164,8 +166,15 @@ namespace memo.Controllers
                 ViewBag.Komunikat = "Musisz się zalogować.";
                 return View();
             }
-
-            return View();
         }
+
+
+ 
+        public ActionResult Edit(string login, string opcjaRola, string opcjaKierunek)
+        {
+            return RedirectToAction("Kokpit");
+        }
+
+
 	}
 }

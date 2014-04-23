@@ -1,0 +1,51 @@
+﻿@model IEnumerable<memo.Models.uzytkownik>
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.haslo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.rola1.nazwa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.statystykaUzytkownika.nazwa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ustawieniaZagadki.opis)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.haslo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rola1.nazwa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.statystykaUzytkownika.nazwa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ustawieniaZagadki.opis)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.nazwa }) |
+            @Html.ActionLink("Details", "Details", new { id=item.nazwa }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.nazwa })
+        </td>
+    </tr>
+}
+
+</table>

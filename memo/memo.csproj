@@ -278,6 +278,7 @@
     <Content Include="Views\Slowko\Zaloguj.cshtml" />
     <Content Include="Views\Slowko\Kokpit.cshtml" />
     <Content Include="Views\Slowko\Test.cshtml" />
+    <Content Include="Views\Slowko\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -37,9 +37,4 @@ namespace memo.Models
     }
 
 
-
-
-
-
-
 }
