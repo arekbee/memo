@@ -1,6 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using memo.Models;
+using System.Web.Security;
+using System;
+using System.Web;
 
 namespace memo.Controllers
 {
@@ -17,19 +20,18 @@ namespace memo.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            string username = null;
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+            {
+                //let us take out the username now                
+                username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                @ViewBag.Login = username;
+            }
 
-            //string wynik = db.slowko.Where(x => x.pl == "pies").ToList().ElementAt(0).eng;
-            //string wynik = db.uzytkownik.Where(x => x.nazwa == "admin").ToList().ElementAt(0).ustawieniaZagadki.opis;
-            /*
-            uzytkownik nowy = new uzytkownik { nazwa = "u1", haslo = "1234", rola = 2, ustawienia = 1 };
-            db.uzytkownik.Add(nowy);
-            db.SaveChanges();
-
-            ViewBag.Pytanie = wynik;*/
-
-            //RejestracjaModel nowy = new RejestracjaModel { nazwa = "u2", haslo = "1234", hasloPowtorka = "1234", regulamin = true };
-            //Rejestracja(nowy);
-
+            if(username != null)
+            {
+                return View();
+            }
 
             return RedirectToAction("Zaloguj");
         }
@@ -80,18 +82,20 @@ namespace memo.Controllers
             
             if (ModelState.IsValid)
             {
-                var user = db.uzytkownik.Where(x => x.nazwa == model.nazwa.Trim());
+                string login = model.nazwa.Trim();
+                var user = db.uzytkownik.Where(x => x.nazwa == login);
                 int czyIstnieje = user.Count();
                 if (czyIstnieje > 0) //istnieje użytkownik
                 {
                     string haslo = user.First().haslo.ToString().Trim();
-                    string hasloUzytkownika = model.haslo.ToString().Trim();
+                    string hasloUzytkownika = model.haslo.ToString().Trim(); //haslo podane przez użytkownika
 
                     if (haslo.Equals(hasloUzytkownika)) //poprawnie zalogowany użytkownik
                     {
-                        ViewBag.Login = user.First().nazwa.Trim();
+                        ViewBag.Login = login;
                         ViewBag.WiadLogowanie = "Zalogowano";
-                        return View("Index");
+                        FormsAuthentication.SetAuthCookie(login, true);
+                        return RedirectToAction("Index");
                     }
                 }
                 ViewBag.WiadLogowanie = "Podałeś zły login lub hasło.";
@@ -104,11 +108,11 @@ namespace memo.Controllers
             return View(model);
         }
 
-
-
-
-
-
-
+        
+        public ActionResult Wyloguj()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
 	}
 }
