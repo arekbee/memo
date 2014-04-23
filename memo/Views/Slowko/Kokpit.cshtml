@@ -11,11 +11,11 @@
 @if (ViewBag.Rola == "BrakUprawnien")
 {
     <div>
-        @Html.ActionLink("Zaloguj", "Zaloguj")
+        @Html.ActionLink("Zaloguj się!", "Zaloguj", new { returnUrl = "/Slowko/Kokpit/" })
     </div>
 }
 else
 {
-       @Html.DisplayText("nie działa;/");
+    @Html.Raw("Widok dla admina.");
 }
 
