@@ -5,7 +5,6 @@
 
 <h2>Kokpit</h2>
 
-
 @ViewBag.Komunikat
 
 @if (ViewBag.Rola == "BrakUprawnien")
@@ -14,10 +13,8 @@
         @Html.ActionLink("Zaloguj się!", "Zaloguj", new { returnUrl = "/Slowko/Kokpit/" })
     </div>
 }
-else
+else //widok dla admina
 {
-    @Html.Raw("Widok dla admina.");
-
     using (Html.BeginForm("Edit", "Slowko", FormMethod.Post, new { login = "asdsd" }))
     {
         @Html.AntiForgeryToken()
@@ -37,25 +34,25 @@ else
                     <th></th>
                 </tr>
 
-               
+                @foreach (var user in ViewBag.Users)
+                {
                     <tr>
                         <td>
-                           @Html.Raw("cos")
+                           @Html.Label("login", (string)@user.nazwa)
                         </td>
                         <td>
                             @Html.Raw("Admin") @Html.RadioButton("opcjaRola", "Admin") <br>
                             @Html.Raw("Zwykły") @Html.RadioButton("opcjaRola", "Zwykły") <br>
-
                         </td>
                         <td>
-                            @Html.Raw("cos")
-
-                            @Html.Display("opcjaRola")
+                            @Html.Raw("Pol-Ang") @Html.RadioButton("opcjaKierunek", "Pol-Ang") <br>
+                            @Html.Raw("Ang-Pol") @Html.RadioButton("opcjaKierunek", "Ang-Pol") <br>
                         </td>
                         <td>
                             <input type="submit" value="Zapisz zmiany" />
                         </td>
                     </tr>
+                }
                 </table>
         </div>
     }

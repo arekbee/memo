@@ -4,6 +4,7 @@ using memo.Models;
 using System.Web.Security;
 using System;
 using System.Web;
+using System.Data.Entity;
 
 namespace memo.Controllers
 {
@@ -150,9 +151,10 @@ namespace memo.Controllers
                 ViewBag.Imie = userRole(User.Identity.Name);
                 if(userRole(User.Identity.Name).Equals("administrator")) //user jest adminem
                 {
-                    ViewBag.Komunikat = "TAJNE INFORMACJE";
+                    //ViewBag.Komunikat = "TAJNE INFORMACJE";
                     ViewBag.Rola = "Admin";
-                    ViewBag.MyList = db.uzytkownik.ToList();
+                    DbSet<uzytkownik> nowy = db.uzytkownik;
+                    ViewBag.Users = nowy;
                     return View();
                 }
                 else
