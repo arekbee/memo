@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace memo.Models
 {
@@ -34,6 +35,14 @@ namespace memo.Models
         [DataType(DataType.Password)]
         [Display(Name = "Hasło")]
         public string haslo { get; set; }
+    }
+
+
+    public class KokpitModel
+    {
+        public string login { get; set; }
+        public string rola { get; set; }
+        public string opcja { get; set; }
     }
 
 

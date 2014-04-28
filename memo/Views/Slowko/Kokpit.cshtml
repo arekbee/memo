@@ -1,4 +1,4 @@
-﻿
+﻿@model List<memo.Models.KokpitModel>
 @{
     ViewBag.Title = "Kokpit";
 }
@@ -15,46 +15,53 @@
 }
 else //widok dla admina
 {
-    using (Html.BeginForm("Edit", "Slowko", FormMethod.Post, new { login = "asdsd" }))
-    {
-        @Html.AntiForgeryToken()
-        
-        <div class="form-horizontal">
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.Raw("Login")
-                    </th>
-                    <th>
-                        @Html.Raw("Rola")
-                    </th>
-                    <th>
-                        @Html.Raw("Opcja")
-                    </th>
-                    <th></th>
-                </tr>
+    <div class="form-horizontal">
+        <table class="table">
+            <tr>
+                <td>
+                    <b>Login</b>
+                </td>
+                <td>
+                    <b>Opcja</b>
+                </td>
+                <td>
+                    <b>Rola</b>
+                </td>
+            </tr>
 
-                @foreach (var user in ViewBag.Users)
-                {
-                    <tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @using (Html.BeginForm("Kokpit", "Slowko", FormMethod.Post))
+                    {
                         <td>
-                           @Html.Label("login", (string)@user.nazwa)
+                            @Html.TextBox("login", item.login)
                         </td>
                         <td>
-                            @Html.Raw("Admin") @Html.RadioButton("opcjaRola", "Admin") <br>
-                            @Html.Raw("Zwykły") @Html.RadioButton("opcjaRola", "Zwykły") <br>
+                            <div class="form-group">
+                                @Html.RadioButton("opcja", "1", item.opcja.Equals("Z jezyka polskiego na angielski") ? true : false) Pol-Ang <br />
+                                @Html.RadioButton("opcja", "2", item.opcja.Equals("Z jezyka angielskiego na polski") ? true : false) Ang-Pol
+                            </div>
                         </td>
+
                         <td>
-                            @Html.Raw("Pol-Ang") @Html.RadioButton("opcjaKierunek", "Pol-Ang") <br>
-                            @Html.Raw("Ang-Pol") @Html.RadioButton("opcjaKierunek", "Ang-Pol") <br>
+                            <div class="form-group">
+                                @Html.RadioButton("rola", "1", item.rola.Equals("administrator") ? true : false) Administrator <br />
+                                @Html.RadioButton("rola", "2", item.rola.Equals("zwykly") ? true : false) Zwykły
+                            </div>
                         </td>
+
                         <td>
-                            <input type="submit" value="Zapisz zmiany" />
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Zapisz" class="btn btn-default" />
+                                </div>
+                            </div>
                         </td>
-                    </tr>
-                }
-                </table>
-        </div>
-    }
+                    }
+                </tr>
+            }
+        </table>
+    </div>
 }
 

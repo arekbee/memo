@@ -5,6 +5,7 @@ using System.Web.Security;
 using System;
 using System.Web;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace memo.Controllers
 {
@@ -18,25 +19,19 @@ namespace memo.Controllers
 
         private bazaEntities db = new bazaEntities();
 
-
-        public ActionResult Test()
-        {
-            return View();
-        }
-
         [HttpGet]
         public ActionResult Index()
         {
             //return Redirect("dictionary.cambridge.org/media/english-polish/us_pron/t/thr/threa/threat.mp3"); //tylko do przetestowania ;)
             string username = null;
             if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
-            {             
+            {
                 //pobranie nazwy zalogowanego uzytkownika
                 username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
                 @ViewBag.Login = username;
             }
 
-            if(username != null)
+            if (username != null)
             {
                 return View();
             }
@@ -50,14 +45,14 @@ namespace memo.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Rejestracja(RejestracjaModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var czyIstnieje = db.uzytkownik.Where(x => x.nazwa == model.nazwa).Count();
-                if(czyIstnieje > 0)
+                if (czyIstnieje > 0)
                 {
                     ViewBag.Uzytkownik = "Użytkownik o podanym loginie już istnieje!";
                     return View(model);
@@ -104,7 +99,7 @@ namespace memo.Controllers
                         ViewBag.Login = login;
                         ViewBag.WiadLogowanie = "Zalogowano";
                         FormsAuthentication.SetAuthCookie(login, true);
-                        if((Url.IsLocalUrl(returnUrl)) && (returnUrl.Length > 1) && (returnUrl.StartsWith("/")) && (!returnUrl.StartsWith("//")) && (!returnUrl.StartsWith("/\\")))
+                        if ((Url.IsLocalUrl(returnUrl)) && (returnUrl.Length > 1) && (returnUrl.StartsWith("/")) && (!returnUrl.StartsWith("//")) && (!returnUrl.StartsWith("/\\")))
                         {
                             return Redirect(returnUrl);
                         }
@@ -122,7 +117,7 @@ namespace memo.Controllers
             return View(model);
         }
 
-        
+
         public ActionResult Wyloguj()
         {
             FormsAuthentication.SignOut();
@@ -131,7 +126,7 @@ namespace memo.Controllers
 
         public string userRole(string user)
         {
-            if(user != null)
+            if (user != null)
             {
                 var uzytkownik = db.uzytkownik.Where(x => x.nazwa == user);
                 if (uzytkownik.Count() > 0)
@@ -139,23 +134,34 @@ namespace memo.Controllers
                     return uzytkownik.First().rola1.nazwa.Trim();
                 }
             }
-            
+
             return "";
         }
 
+        [HttpGet]
         public ActionResult Kokpit()
         {
-            ViewBag.Rola = "BrakUprawnien";
-            if(User.Identity.Name.Count() > 0) //zalogowany
+            ViewBag.Rola = "BrakUprawnien"; //nie usuwac
+            if (User.Identity.Name.Count() > 0) //zalogowany
             {
                 ViewBag.Imie = userRole(User.Identity.Name);
-                if(userRole(User.Identity.Name).Equals("administrator")) //user jest adminem
+                if (userRole(User.Identity.Name).Equals("administrator")) //user jest adminem
                 {
+                    ViewBag.Rola = "Admin"; //nie usuwac
                     //ViewBag.Komunikat = "TAJNE INFORMACJE";
-                    ViewBag.Rola = "Admin";
-                    DbSet<uzytkownik> nowy = db.uzytkownik;
-                    ViewBag.Users = nowy;
-                    return View();
+                    List<KokpitModel> uzytkownicy = new List<KokpitModel>();
+
+                    var users = db.uzytkownik;
+                    foreach (uzytkownik p in users)
+                    {
+                        var model = new KokpitModel();
+                        model.login = p.nazwa.Trim();
+                        model.rola = p.rola1.nazwa.Trim();
+                        model.opcja = p.ustawieniaZagadki.opis.Trim();
+
+                        uzytkownicy.Add(model);
+                    }
+                    return View(uzytkownicy);
                 }
                 else
                 {
@@ -170,13 +176,41 @@ namespace memo.Controllers
             }
         }
 
-
- 
-        public ActionResult Edit(string login, string opcjaRola, string opcjaKierunek)
+        [HttpPost]
+        public ActionResult Kokpit(KokpitModel model)
         {
+            db.uzytkownik.Where(x => x.nazwa == model.login).Single().rola = Convert.ToInt32(model.rola);
+            db.uzytkownik.Where(x => x.nazwa == model.login).Single().ustawienia = Convert.ToInt32(model.opcja);
+            db.SaveChanges();
+
             return RedirectToAction("Kokpit");
         }
 
+        public ActionResult Test()
+        {
+            List<KokpitModel> uzytkownicy = new List<KokpitModel>();
 
-	}
+            var users = db.uzytkownik;
+            foreach (uzytkownik p in users)
+            {
+                var model = new KokpitModel();
+                model.login = p.nazwa.Trim();
+                model.rola = p.rola1.nazwa.Trim();
+                model.opcja = p.ustawieniaZagadki.opis.Trim();
+                
+                uzytkownicy.Add(model);
+            }
+            return View(uzytkownicy);
+        }
+
+        [HttpPost]
+        public ActionResult Test(KokpitModel model)
+        {
+            db.uzytkownik.Where(x => x.nazwa == model.login).Single().rola = Convert.ToInt32(model.rola);
+            db.uzytkownik.Where(x => x.nazwa == model.login).Single().ustawienia = Convert.ToInt32(model.opcja);
+            db.SaveChanges();
+
+            return RedirectToAction("Test");
+        }
+    }
 }
