@@ -186,31 +186,56 @@ namespace memo.Controllers
             return RedirectToAction("Kokpit");
         }
 
-        public ActionResult Test()
-        {
-            List<KokpitModel> uzytkownicy = new List<KokpitModel>();
 
-            var users = db.uzytkownik;
-            foreach (uzytkownik p in users)
+        [HttpGet]
+        public ActionResult Pytanie()
+        {
+            ViewBag.Odpowiedz = false;
+            Pytanie nowy = new Pytanie();
+
+            nowy.login = "nemo";
+            nowy.pytanie = "dog";
+            nowy.poprawna_odpowiedz = "pies";
+          
+            try
             {
-                var model = new KokpitModel();
-                model.login = p.nazwa.Trim();
-                model.rola = p.rola1.nazwa.Trim();
-                model.opcja = p.ustawieniaZagadki.opis.Trim();
-                
-                uzytkownicy.Add(model);
+                int max = db.slowko.Count();
+                int losuj = new Random().Next(0, max);
+  /*              slowko zadanie = db.slowko.ElementAt(losuj);
+                nowy.pytanie = zadanie.eng;
+                nowy.poprawna_odpowiedz = zadanie.pl;*/
             }
-            return View(uzytkownicy);
+            catch(Exception)
+            {
+
+            }
+
+            return View(nowy);
         }
 
         [HttpPost]
-        public ActionResult Test(KokpitModel model)
+        public ActionResult Pytanie(Pytanie model)
         {
-            db.uzytkownik.Where(x => x.nazwa == model.login).Single().rola = Convert.ToInt32(model.rola);
-            db.uzytkownik.Where(x => x.nazwa == model.login).Single().ustawienia = Convert.ToInt32(model.opcja);
-            db.SaveChanges();
 
-            return RedirectToAction("Test");
+            return View();
+        }
+
+
+
+
+        public ActionResult Test()
+        {
+            Pytanie panelModel = new Pytanie();
+
+
+            return View(db.uzytkownik.ToList());
+            //return View(panelModel);
+        }
+
+        [HttpPost]
+        public ActionResult Test(IEnumerable<uzytkownik> model)
+        {
+            return View();
         }
     }
 }

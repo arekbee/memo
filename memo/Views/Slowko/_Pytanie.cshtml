@@ -1,0 +1,38 @@
+﻿@model memo.Models.Pytanie
+
+@using (Html.BeginForm("Pytanie", "Slowko", FormMethod.Post))
+{
+    <table border="5" width="50%" cellpadding="4" cellspacing="3">
+        <tr>
+            <td colspan="2" align="CENTER">
+                Pytanie: @Html.LabelFor(model => model.pytanie, @Model.pytanie)
+            </td>
+        </tr>
+
+        @if (ViewBag.Odpowiedz)
+        {
+            <tr>
+                <td colspan="2" align="CENTER">
+                    @Html.TextBoxFor(model => model.poprawna_odpowiedz)
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="2" align="CENTER">
+                @Html.TextBoxFor(model => model.twoja_odpowiedz)
+            </td>
+        </tr>
+
+        <tr>
+            <th colspan="2">
+                <div class="form-group">
+                    <div class="col-md-offset-5 col-md-10">
+                        <input type="submit" value="Zapisz" class="btn btn-default" />
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </table>
+}
+

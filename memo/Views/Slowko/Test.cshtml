@@ -1,4 +1,4 @@
-﻿@model List<memo.Models.KokpitModel>
+﻿@model IEnumerable<memo.Models.uzytkownik>
 
 @{
     ViewBag.Title = "Test";
@@ -6,53 +6,32 @@
 
 <h2>Test</h2>
 
-
-<div class="form-horizontal">
-    <table class="table">
-        <tr>
-            <td>
-                <b>Login</b>
-            </td>
-            <td>
-                <b>Opcja</b>
-            </td>
-            <td>
-                <b>Rola</b>
-            </td>
-        </tr>
-
+@using (Html.BeginForm("Test", "Slowko", FormMethod.Post))
+{
+    <table>
         @foreach (var item in Model)
         {
             <tr>
-                @using (Html.BeginForm("Test", "Slowko"))
-                {
-                    <td>
-                        @Html.TextBox("login", item.login)
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            @Html.RadioButton("opcja", "1", item.opcja.Equals("Z jezyka polskiego na angielski") ? true : false) Pol-Ang <br />
-                            @Html.RadioButton("opcja", "2", item.opcja.Equals("Z jezyka angielskiego na polski") ? true : false) Ang-Pol
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="form-group">
-                            @Html.RadioButton("rola", "1", item.rola.Equals("administrator") ? true : false) Administrator <br />
-                            @Html.RadioButton("rola", "2", item.rola.Equals("zwykly") ? true : false) Zwykły
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Zapisz" class="btn btn-default" />
-                            </div>
-                        </div>
-                    </td>
-                }
+                <td>
+                    @Html.DisplayFor(x => item.nazwa)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.haslo)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.rola1.nazwa)
+                </td>
+                <td>
+                    @Html.RadioButtonFor(x => item.rola1, item.rola1.nazwa) cos
+                    @Html.RadioButtonFor(x => item.rola1.nazwa, "administrator") administrator
+                    @Html.RadioButtonFor(x => item.rola1.nazwa, "zwykly") zwykly
+                    
+                </td>
+                <td>
+                    <input type="submit" value="Zapisz" class="btn btn-default" />
+                </td>
             </tr>
         }
     </table>
-</div>
+}
 
