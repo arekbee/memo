@@ -47,7 +47,6 @@ namespace memo.Models
 
     public class Pytanie
     {
-        public string login { get; set; }
         public string pytanie { get; set; }
         public string poprawna_odpowiedz { get; set; }
         public string twoja_odpowiedz { get; set; }

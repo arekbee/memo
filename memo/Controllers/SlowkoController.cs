@@ -191,26 +191,47 @@ namespace memo.Controllers
         public ActionResult Pytanie()
         {
             ViewBag.Odpowiedz = false;
-            Pytanie nowy = new Pytanie();
 
-            nowy.login = "nemo";
-            nowy.pytanie = "dog";
-            nowy.poprawna_odpowiedz = "pies";
-          
+            int ustawienieUzytkownika = userSetting(User.Identity.Name);
+            Pytanie nowy = new Pytanie();
             try
             {
                 int max = db.slowko.Count();
-                int losuj = new Random().Next(0, max);
-  /*              slowko zadanie = db.slowko.ElementAt(losuj);
-                nowy.pytanie = zadanie.eng;
-                nowy.poprawna_odpowiedz = zadanie.pl;*/
-            }
-            catch(Exception)
-            {
+                int losuj = new Random().Next(0, max - 1);
+                memo.Models.slowko slowko = db.slowko.ToList().ElementAt(losuj);
 
+                switch (ustawienieUzytkownika)
+                {
+                    case 1:
+                        nowy.pytanie = slowko.pl;
+                        nowy.poprawna_odpowiedz = slowko.eng;
+                        break;
+                    case 2:
+                        nowy.pytanie = slowko.eng;
+                        nowy.poprawna_odpowiedz = slowko.pl;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception)
+            {
             }
 
             return View(nowy);
+        }
+
+        public int userSetting(string user)
+        {
+            if (user != null)
+            {
+                var uzytkownik = db.uzytkownik.Where(x => x.nazwa == user);
+                if (uzytkownik.Count() > 0)
+                {
+                    return uzytkownik.First().ustawienia;
+                }
+            }
+            return 0; //błąd
         }
 
         [HttpPost]
