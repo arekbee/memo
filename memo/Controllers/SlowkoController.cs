@@ -186,7 +186,7 @@ namespace memo.Controllers
             return RedirectToAction("Kokpit");
         }
 
-
+        
         [HttpGet]
         public ActionResult Pytanie()
         {
@@ -237,12 +237,27 @@ namespace memo.Controllers
         [HttpPost]
         public ActionResult Pytanie(Pytanie model)
         {
+            var uzytkownik = db.uzytkownik.Where(x => x.nazwa == User.Identity.Name);
+            if (uzytkownik.Count() > 0)
+            {
 
-            return View();
+                string pytanie = model.pytanie;
+                string odpowiedz_uzytkownika = model.odpowiedz_uzytkownika.ToString().Trim();
+                string poprawna_odpowiedz = model.poprawna_odpowiedz;
+
+                if (odpowiedz_uzytkownika.Equals(poprawna_odpowiedz))
+                {
+                    uzytkownik.First().statystykaUzytkownika.dobreOdpowiedzi++;
+                }
+                else
+                {
+                    uzytkownik.First().statystykaUzytkownika.zleOdpowiedzi++;
+                }
+                db.SaveChanges();
+            }
+            ViewBag.Odpowiedz = true;
+            return View(model);
         }
-
-
-
 
         public ActionResult Test()
         {

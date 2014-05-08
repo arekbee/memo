@@ -49,7 +49,7 @@ namespace memo.Models
     {
         public string pytanie { get; set; }
         public string poprawna_odpowiedz { get; set; }
-        public string twoja_odpowiedz { get; set; }
+        public string odpowiedz_uzytkownika { get; set; }
     }
 
 
