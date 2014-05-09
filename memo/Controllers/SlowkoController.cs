@@ -185,13 +185,15 @@ namespace memo.Controllers
 
             return RedirectToAction("Kokpit");
         }
-
         
         [HttpGet]
         public ActionResult Pytanie()
         {
             ViewBag.Odpowiedz = false;
+            return View(generatePair());
+        }
 
+        public Pytanie generatePair() {
             int ustawienieUzytkownika = userSetting(User.Identity.Name);
             Pytanie nowy = new Pytanie();
             try
@@ -217,8 +219,7 @@ namespace memo.Controllers
             catch (Exception)
             {
             }
-
-            return View(nowy);
+            return nowy;
         }
 
         public int userSetting(string user)
@@ -237,13 +238,17 @@ namespace memo.Controllers
         [HttpPost]
         public ActionResult Pytanie(Pytanie model)
         {
+            if (model.pytanie == null)
+            {
+                return Pytanie();
+            }
             var uzytkownik = db.uzytkownik.Where(x => x.nazwa == User.Identity.Name);
             if (uzytkownik.Count() > 0)
             {
 
                 string pytanie = model.pytanie;
                 string odpowiedz_uzytkownika = model.odpowiedz_uzytkownika.ToString().Trim();
-                string poprawna_odpowiedz = model.poprawna_odpowiedz;
+                string poprawna_odpowiedz = model.poprawna_odpowiedz.ToString().Trim();
 
                 if (odpowiedz_uzytkownika.Equals(poprawna_odpowiedz))
                 {
@@ -255,8 +260,8 @@ namespace memo.Controllers
                 }
                 db.SaveChanges();
             }
-            ViewBag.Odpowiedz = true;
-            return View(model);
+
+            return View();
         }
 
         public ActionResult Test()
