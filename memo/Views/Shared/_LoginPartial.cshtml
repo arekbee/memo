@@ -9,6 +9,8 @@
             <li>
                 @Html.DisplayText("Witaj, użytkowniku " + User.Identity.GetUserName() + "!")
             </li>
+            
+            <li>@Html.ActionLink("Panel", "Panel", "Slowko")</li>
             <li>
                 @Html.ActionLink("Wyloguj", "Wyloguj")
             </li>
