@@ -11,13 +11,9 @@ namespace memo.Controllers
 {
     public class SlowkoController : Controller
     {
-        private int zwykly = 2;
-        private int administrator = 1;
-
         private int angPol = 2;
         private int polAng = 1;
         enum Rola { NIE_ZALOGOWANY = 0, ADMIN = 1, ZWYKLY = 2 };
-        enum Opcja { Pol_Ang = 1, Ang_Pol = 2 };
 
         private bazaEntities db = new bazaEntities();
 
@@ -60,7 +56,7 @@ namespace memo.Controllers
                     return View(model);
                 }
 
-                uzytkownik nUzytkownik = new uzytkownik { nazwa = model.nazwa.Trim(), haslo = model.haslo.Trim(), rola = zwykly, ustawienia = polAng };
+                uzytkownik nUzytkownik = new uzytkownik { nazwa = model.nazwa.Trim(), haslo = model.haslo.Trim(), rola = (int)Rola.ZWYKLY, ustawienia = polAng };
                 db.uzytkownik.Add(nUzytkownik);
 
 
