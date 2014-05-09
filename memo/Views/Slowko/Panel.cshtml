@@ -1,0 +1,43 @@
+﻿@model memo.Models.PanelViewModel
+
+@{
+    ViewBag.Title = "Panel";
+}
+
+<h2>Panel</h2>
+
+<div class="form-horizontal">
+    <table class="table">
+        <tr>
+            <td>
+                <b>Login</b>
+            </td>
+            <td>
+                <b>Opcja</b>
+            </td>
+        </tr>
+
+        <tr>
+            @using (Html.BeginForm("Panel", "Slowko", FormMethod.Post))
+            {
+                <td>
+                    @Html.TextBox("login", @Model.login)
+                </td>
+                <td>
+                    <div class="form-group">
+                        @Html.RadioButton("opcja", "1", @Model.opcja.Equals("Z jezyka polskiego na angielski") ? true : false) Pol-Ang <br />
+                        @Html.RadioButton("opcja", "2", @Model.opcja.Equals("Z jezyka angielskiego na polski") ? true : false) Ang-Pol
+                    </div>
+                </td>
+
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Zapisz" class="btn btn-default" />
+                        </div>
+                    </div>
+                </td>
+            }
+        </tr>
+    </table>
+</div>

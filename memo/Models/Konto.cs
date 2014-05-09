@@ -52,5 +52,11 @@ namespace memo.Models
         public string odpowiedz_uzytkownika { get; set; }
     }
 
+    public class PanelViewModel
+    {
+        public string login { get; set; }
+        public string opcja { get; set; }
+    }
+
 
 }

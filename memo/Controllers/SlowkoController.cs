@@ -16,6 +16,8 @@ namespace memo.Controllers
 
         private int angPol = 2;
         private int polAng = 1;
+        enum Rola { NIE_ZALOGOWANY = 0, ADMIN = 1, ZWYKLY = 2 };
+        enum Opcja { Pol_Ang = 1, Ang_Pol = 2 };
 
         private bazaEntities db = new bazaEntities();
 
@@ -124,7 +126,7 @@ namespace memo.Controllers
             return RedirectToAction("Index");
         }
 
-        public string userRole(string user)
+        public string rolaUzytkownia(string user)
         {
             if (user != null)
             {
@@ -138,42 +140,67 @@ namespace memo.Controllers
             return "";
         }
 
+        //sprawdza czy jest login zalogowany
+        private bool czyZalogowany()
+        {
+            if (User.Identity.Name.Count() > 0) //zalogowany
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //sprawdz role uzytkownika
+        private Rola sprawdzRole()
+        {
+            Rola rola = Rola.NIE_ZALOGOWANY;
+            if (czyZalogowany())
+            {
+                rola = Rola.ZWYKLY;
+                if (rolaUzytkownia(User.Identity.Name).Equals("administrator"))
+                {
+                    rola = Rola.ADMIN;
+                }
+            }
+            return rola;
+        }
+
         [HttpGet]
         public ActionResult Kokpit()
         {
-            ViewBag.Rola = "BrakUprawnien"; //nie usuwac
-            if (User.Identity.Name.Count() > 0) //zalogowany
+            ViewBag.Rola = "BrakUprawnien";
+            switch (sprawdzRole())
             {
-                ViewBag.Imie = userRole(User.Identity.Name);
-                if (userRole(User.Identity.Name).Equals("administrator")) //user jest adminem
-                {
-                    ViewBag.Rola = "Admin"; //nie usuwac
-                    //ViewBag.Komunikat = "TAJNE INFORMACJE";
-                    List<KokpitModel> uzytkownicy = new List<KokpitModel>();
-
-                    var users = db.uzytkownik;
-                    foreach (uzytkownik p in users)
+                case Rola.ADMIN:
                     {
-                        var model = new KokpitModel();
-                        model.login = p.nazwa.Trim();
-                        model.rola = p.rola1.nazwa.Trim();
-                        model.opcja = p.ustawieniaZagadki.opis.Trim();
+                        ViewBag.Rola = "Admin"; //nie usuwac
+                        //ViewBag.Komunikat = "TAJNE INFORMACJE";
+                        List<KokpitModel> uzytkownicy = new List<KokpitModel>();
 
-                        uzytkownicy.Add(model);
+                        var users = db.uzytkownik;
+                        foreach (uzytkownik p in users)
+                        {
+                            var model = new KokpitModel();
+                            model.login = p.nazwa.Trim();
+                            model.rola = p.rola1.nazwa.Trim();
+                            model.opcja = p.ustawieniaZagadki.opis.Trim();
+
+                            uzytkownicy.Add(model);
+                        }
+                        return View(uzytkownicy);
                     }
-                    return View(uzytkownicy);
-                }
-                else
-                {
-                    ViewBag.Komunikat = "Użytkownik '" + User.Identity.Name + "' nie posiada wystarczających uprawnień";
-                    return View();
-                }
+                case Rola.ZWYKLY:
+                    {
+                        ViewBag.Komunikat = "Użytkownik '" + User.Identity.Name + "' nie posiada wystarczających uprawnień";
+                        break;
+                    }
+                case Rola.NIE_ZALOGOWANY:
+                    {
+                        ViewBag.Komunikat = "Musisz się zalogować.";
+                        break;
+                    }
             }
-            else
-            {
-                ViewBag.Komunikat = "Musisz się zalogować.";
-                return View();
-            }
+            return View();
         }
 
         [HttpPost]
@@ -262,6 +289,29 @@ namespace memo.Controllers
             }
 
             return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult Panel()
+        {
+            if (sprawdzRole() != Rola.NIE_ZALOGOWANY)
+            {
+                PanelViewModel panel = new PanelViewModel();
+                var uzytkownik = db.uzytkownik.Where(x => x.nazwa == User.Identity.Name).First();
+                panel.login = uzytkownik.nazwa.Trim();
+                panel.opcja = uzytkownik.ustawieniaZagadki.opis.Trim();
+                return View(panel);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Panel(PanelViewModel model)
+        {
+            db.uzytkownik.Where(x => x.nazwa == model.login).Single().ustawienia = Convert.ToInt32(model.opcja);
+            db.SaveChanges();
+            return RedirectToAction("Panel");
         }
 
         public ActionResult Test()
