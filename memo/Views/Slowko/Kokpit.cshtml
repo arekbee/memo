@@ -35,33 +35,34 @@ else //widok dla admina
                     @using (Html.BeginForm("Kokpit", "Slowko", FormMethod.Post))
                     {
                         <td>
-                            @Html.TextBox("login", item.login)
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                @Html.RadioButton("opcja", "1", item.opcja.Equals("Z jezyka polskiego na angielski") ? true : false) Pol-Ang <br />
-                                @Html.RadioButton("opcja", "2", item.opcja.Equals("Z jezyka angielskiego na polski") ? true : false) Ang-Pol
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                @Html.RadioButton("rola", "1", item.rola.Equals("administrator") ? true : false) Administrator <br />
-                                @Html.RadioButton("rola", "2", item.rola.Equals("zwykly") ? true : false) Zwykły
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Zapisz" class="btn btn-default" />
+                                @Html.Label("login", item.login)
+                                @Html.Hidden("login",item.login)
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.RadioButton("opcja", "1", item.opcja.Equals("Z jezyka polskiego na angielski") ? true : false) Pol-Ang <br />
+                                    @Html.RadioButton("opcja", "2", item.opcja.Equals("Z jezyka angielskiego na polski") ? true : false) Ang-Pol
                                 </div>
-                            </div>
-                        </td>
-                    }
-                </tr>
-            }
-        </table>
-    </div>
-}
+                            </td>
+
+                            <td>
+                                <div class="form-group">
+                                    @Html.RadioButton("rola", "1", item.rola.Equals("administrator") ? true : false) Administrator <br />
+                                    @Html.RadioButton("rola", "2", item.rola.Equals("zwykly") ? true : false) Zwykły
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Zapisz" class="btn btn-default" />
+                                    </div>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 

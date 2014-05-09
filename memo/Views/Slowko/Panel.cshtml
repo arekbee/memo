@@ -21,7 +21,8 @@
             @using (Html.BeginForm("Panel", "Slowko", FormMethod.Post))
             {
                 <td>
-                    @Html.TextBox("login", @Model.login)
+                    @Html.LabelFor(model => model.login, @Model.login)
+                    @Html.HiddenFor(model => model.login, @Model.login)
                 </td>
                 <td>
                     <div class="form-group">
