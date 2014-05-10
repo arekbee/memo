@@ -1,5 +1,6 @@
 ﻿table {
-    width: 30%;
+    /*height: 120px;*/
+    width: 40%;
     border: 2px solid gray;
     border-spacing: 3;
     border-collapse: separate;
@@ -13,4 +14,10 @@
 th {
     text-align: center;
     padding: 3px;
+}
+th#dobra {
+    color: green;
+}
+th#zla {
+    color: red;
 }

@@ -212,7 +212,6 @@ namespace memo.Controllers
         [HttpGet]
         public ActionResult Pytanie()
         {
-            ViewBag.Odpowiedz = false;
             return View(generatePair());
         }
 
@@ -263,24 +262,31 @@ namespace memo.Controllers
         {
             if (model.pytanie == null)
             {
-                return Pytanie();
+                return View(generatePair());//Pytanie();
             }
             var uzytkownik = db.uzytkownik.Where(x => x.nazwa == User.Identity.Name);
             if (uzytkownik.Count() > 0)
             {
-
+                if (model.odpowiedz_uzytkownika == null)
+                {
+                    return View(model);
+                }
                 string pytanie = model.pytanie;
                 string odpowiedz_uzytkownika = model.odpowiedz_uzytkownika.ToString().Trim();
                 string poprawna_odpowiedz = model.poprawna_odpowiedz.ToString().Trim();
 
                 if (odpowiedz_uzytkownika.Equals(poprawna_odpowiedz))
                 {
+                    ViewBag.czy_poprawna_odpowiedz = true;
                     uzytkownik.First().statystykaUzytkownika.dobreOdpowiedzi++;
                 }
                 else
                 {
+                    ViewBag.czy_poprawna_odpowiedz = false;
                     uzytkownik.First().statystykaUzytkownika.zleOdpowiedzi++;
                 }
+                ViewBag.dobre_odpowiedzi = uzytkownik.First().statystykaUzytkownika.dobreOdpowiedzi;
+                ViewBag.zle_odpowiedzi = uzytkownik.First().statystykaUzytkownika.zleOdpowiedzi;
                 db.SaveChanges();
             }
 
