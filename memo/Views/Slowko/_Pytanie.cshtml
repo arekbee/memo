@@ -1,51 +1,42 @@
 ﻿@model memo.Models.Pytanie
-
+@Styles.Render("~/Content/PytanieStyle.css")
 @using (Html.BeginForm("Pytanie", "Slowko", FormMethod.Post))
 {
-    
-    <table border="5" width="50%" cellpadding="4" cellspacing="3">
+    <table>
 @if (Model != null) {
         <tr>
-            <td colspan="2" align="CENTER">
+            <th>
                 Pytanie: @Html.LabelFor(model => model.pytanie, @Model.pytanie)
                 @Html.HiddenFor(model => model.pytanie, @Model.pytanie)
                 @Html.HiddenFor(model => model.poprawna_odpowiedz, @Model.poprawna_odpowiedz)
-            </td>
+            </th>
         </tr>
     }
         @*@if (ViewBag.Odpowiedz)
         {
             <tr>
-                <td colspan="2" align="CENTER">
+                <th>
                     @Html.TextBoxFor(model => model.poprawna_odpowiedz)
-                </td>
+                </th>
             </tr>
         }*@
 @if (Model != null) {
         <tr>
-            <td colspan="2" align="CENTER">
+            <th>
                 @Html.TextBoxFor(model => model.odpowiedz_uzytkownika)
-            </td>
+            </th>
         </tr>
 
         <tr>
-            <th colspan="2">
-                <div class="form-group">
-                    <div class="col-md-offset-5 col-md-10">
-                        <input type="submit" value="Zapisz" class="btn btn-default" />
-                    </div>
-                </div>
+            <th>
+                <input type="submit" value="Zapisz" class="btn btn-default" />
             </th>
         </tr>
         }
         else {
         <tr>
-            <th colspan="2">
-                <div class="form-group">
-                    <div class="col-md-offset-5 col-md-10">
-                        <input type="submit" value="Następna zagadka" class="btn btn-default" />
-                    </div>
-                </div>
+            <th>
+                <input type="submit" value="Następna zagadka" class="btn btn-default" />
             </th>
         </tr>
         }
