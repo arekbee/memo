@@ -1,13 +1,13 @@
 ﻿@model List<memo.Models.KokpitModel>
+           @using memo.Controllers;
 @{
     ViewBag.Title = "Kokpit";
 }
-
 <h2>Kokpit</h2>
 
 @ViewBag.Komunikat
 
-@if (ViewBag.Rola == "BrakUprawnien")
+@if (ViewBag.Rola == "nieZalogowny")
 {
     <div>
         @Html.ActionLink("Zaloguj się!", "Zaloguj", new { returnUrl = "/Slowko/Kokpit/" })

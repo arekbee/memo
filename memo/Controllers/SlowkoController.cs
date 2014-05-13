@@ -16,12 +16,15 @@ namespace memo.Controllers
         enum Rola { NIE_ZALOGOWANY = 0, ADMIN = 1, ZWYKLY = 2 };
 
         private bazaEntities db = new bazaEntities();
+        
 
         [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.Rola = "nieZalogowny";
             //return Redirect("dictionary.cambridge.org/media/english-polish/us_pron/t/thr/threa/threat.mp3"); //tylko do przetestowania ;)
             string username = null;
+
             if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
             {
                 //pobranie nazwy zalogowanego uzytkownika
@@ -29,8 +32,17 @@ namespace memo.Controllers
                 @ViewBag.Login = username;
             }
 
+            ViewBag.Rola = "nieZalogowany";
             if (username != null)
             {
+                if (sprawdzRole() == Rola.ADMIN)
+                {
+                    ViewBag.Rola = "admin";
+                }
+                else
+                {
+                    ViewBag.Rola = "zwykly";
+                }
                 return View();
             }
 
@@ -95,8 +107,17 @@ namespace memo.Controllers
                     if (haslo.Equals(hasloUzytkownika)) //poprawnie zalogowany użytkownik
                     {
                         ViewBag.Login = login;
-                        ViewBag.WiadLogowanie = "Zalogowano";
                         FormsAuthentication.SetAuthCookie(login, true);
+                        ViewBag.WiadLogowanie = "Zalogowano";
+                        if (rolaUzytkownia(login).Equals("administrator"))
+                        {
+                            ViewBag.Rola = "admin";
+                        }
+                        else
+                        {
+                            ViewBag.Rola = "zwykly";
+                        }
+
                         if ((Url.IsLocalUrl(returnUrl)) && (returnUrl.Length > 1) && (returnUrl.StartsWith("/")) && (!returnUrl.StartsWith("//")) && (!returnUrl.StartsWith("/\\")))
                         {
                             return Redirect(returnUrl);
@@ -164,12 +185,12 @@ namespace memo.Controllers
         [HttpGet]
         public ActionResult Kokpit()
         {
-            ViewBag.Rola = "BrakUprawnien";
+            ViewBag.Rola = "nieZalogowny";
             switch (sprawdzRole())
             {
                 case Rola.ADMIN:
                     {
-                        ViewBag.Rola = "Admin"; //nie usuwac
+                        ViewBag.Rola = "admin"; //nie usuwac
                         //ViewBag.Komunikat = "TAJNE INFORMACJE";
                         List<KokpitModel> uzytkownicy = new List<KokpitModel>();
 
@@ -212,6 +233,15 @@ namespace memo.Controllers
         [HttpGet]
         public ActionResult Pytanie()
         {
+            ViewBag.Rola = "nieZalogowany";
+            if (sprawdzRole() == Rola.ADMIN)
+            {
+                ViewBag.Rola = "admin";
+            }
+            else
+            {
+                ViewBag.Rola = "zwykly";
+            }
             return View(generatePair());
         }
 
@@ -260,6 +290,7 @@ namespace memo.Controllers
         [HttpPost]
         public ActionResult Pytanie(Pytanie model)
         {
+            ViewBag.Rola = "admin";
             if (model.pytanie == null)
             {
                 return View(generatePair());//Pytanie();
@@ -318,6 +349,7 @@ namespace memo.Controllers
 
         public ActionResult Test()
         {
+            ViewBag.Rola = "as";
             Pytanie panelModel = new Pytanie();
 
 
