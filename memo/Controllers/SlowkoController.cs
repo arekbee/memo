@@ -11,9 +11,9 @@ namespace memo.Controllers
 {
     public class SlowkoController : Controller
     {
-        private int angPol = 2;
+        //private int angPol = 2; //narazie nie potrzebne
         private int polAng = 1;
-        enum Rola { NIE_ZALOGOWANY = 0, ADMIN = 1, ZWYKLY = 2 };
+        public enum Rola { NIE_ZALOGOWANY = 0, ADMIN = 1, ZWYKLY = 2 };
 
         private bazaEntities db = new bazaEntities();
         
@@ -168,7 +168,7 @@ namespace memo.Controllers
         }
 
         //sprawdz role uzytkownika
-        private Rola sprawdzRole()
+        public Rola sprawdzRole()
         {
             Rola rola = Rola.NIE_ZALOGOWANY;
             if (czyZalogowany())
@@ -347,14 +347,16 @@ namespace memo.Controllers
             return RedirectToAction("Panel");
         }
 
-        public ActionResult Test()
+        public bool Test(string napis)
         {
-            ViewBag.Rola = "as";
-            Pytanie panelModel = new Pytanie();
-
-
-            return View(db.uzytkownik.ToList());
-            //return View(panelModel);
+            if(napis != null && napis.Equals("admin"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         [HttpPost]
