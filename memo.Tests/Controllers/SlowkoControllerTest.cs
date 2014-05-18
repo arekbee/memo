@@ -22,17 +22,19 @@ namespace memo.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestTest()
+        public void rolaUzytkowniaTest()
         {
-            //arange
             SlowkoController panel = new SlowkoController();
-            string login = "admin";
+            string wynik1 = panel.rolaUzytkownia("nemo");
+            string wynik2 = panel.rolaUzytkownia("pawel");
+            string wynik3 = panel.rolaUzytkownia("kowalski");
+            string wynik4 = panel.rolaUzytkownia("kowalski1");
 
-            //act
-            bool result1 = panel.Test(login);
 
-            // assert
-            Assert.AreEqual<bool>(result1, true);
+            Assert.AreEqual(wynik1, "administrator");
+            Assert.AreEqual(wynik2, "zwykly");
+            Assert.AreEqual(wynik3, "zwykly");
+            Assert.AreEqual(wynik4, "administrator");
         }
     }
 

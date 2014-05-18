@@ -15,7 +15,7 @@ namespace memo.Controllers
         private int polAng = 1;
         public enum Rola { NIE_ZALOGOWANY = 0, ADMIN = 1, ZWYKLY = 2 };
 
-        private bazaEntities db = new bazaEntities();
+        public bazaEntities db = new bazaEntities();
         
 
         [HttpGet]
@@ -77,7 +77,7 @@ namespace memo.Controllers
                 db.SaveChanges();
             }
 
-            return View("Zaloguj");
+            return RedirectToAction("Zaloguj");
         }
 
 
@@ -123,7 +123,9 @@ namespace memo.Controllers
                             return Redirect(returnUrl);
                         }
 
-                        return RedirectToAction("Index");
+                        LogowanieModel nowy = new LogowanieModel();
+                        nowy.nazwa = login;
+                        return RedirectToAction("Index",nowy);
                     }
                 }
                 ViewBag.WiadLogowanie = "Podałeś zły login lub hasło.";
