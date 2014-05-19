@@ -16,7 +16,7 @@ namespace memo.Controllers
         public enum Rola { NIE_ZALOGOWANY = 0, ADMIN = 1, ZWYKLY = 2 };
 
         public bazaEntities db = new bazaEntities();
-        
+
 
         [HttpGet]
         public ActionResult Index()
@@ -123,9 +123,7 @@ namespace memo.Controllers
                             return Redirect(returnUrl);
                         }
 
-                        LogowanieModel nowy = new LogowanieModel();
-                        nowy.nazwa = login;
-                        return RedirectToAction("Index",nowy);
+                        return RedirectToAction("Index");
                     }
                 }
                 ViewBag.WiadLogowanie = "Podałeś zły login lub hasło.";
@@ -172,12 +170,15 @@ namespace memo.Controllers
         //sprawdz role uzytkownika
         public Rola sprawdzRole()
         {
+            ViewBag.Rola = "nieZalogowany";
             Rola rola = Rola.NIE_ZALOGOWANY;
             if (czyZalogowany())
             {
                 rola = Rola.ZWYKLY;
+                ViewBag.Rola = "zwykly";
                 if (rolaUzytkownia(User.Identity.Name).Equals("administrator"))
                 {
+                    ViewBag.Rola = "admin";
                     rola = Rola.ADMIN;
                 }
             }
@@ -187,13 +188,10 @@ namespace memo.Controllers
         [HttpGet]
         public ActionResult Kokpit()
         {
-            ViewBag.Rola = "nieZalogowny";
-            switch (sprawdzRole())
+            switch (sprawdzRole()) 
             {
                 case Rola.ADMIN:
                     {
-                        ViewBag.Rola = "admin"; //nie usuwac
-                        //ViewBag.Komunikat = "TAJNE INFORMACJE";
                         List<KokpitModel> uzytkownicy = new List<KokpitModel>();
 
                         var users = db.uzytkownik;
@@ -231,23 +229,16 @@ namespace memo.Controllers
 
             return RedirectToAction("Kokpit");
         }
-        
+
         [HttpGet]
         public ActionResult Pytanie()
         {
-            ViewBag.Rola = "nieZalogowany";
-            if (sprawdzRole() == Rola.ADMIN)
-            {
-                ViewBag.Rola = "admin";
-            }
-            else
-            {
-                ViewBag.Rola = "zwykly";
-            }
+            sprawdzRole();
             return View(generatePair());
         }
 
-        public Pytanie generatePair() {
+        public Pytanie generatePair()
+        {
             int ustawienieUzytkownika = userSetting(User.Identity.Name);
             Pytanie nowy = new Pytanie();
             try
@@ -292,7 +283,7 @@ namespace memo.Controllers
         [HttpPost]
         public ActionResult Pytanie(Pytanie model)
         {
-            ViewBag.Rola = "admin";
+            sprawdzRole();
             if (model.pytanie == null)
             {
                 return View(generatePair());//Pytanie();
@@ -349,9 +340,18 @@ namespace memo.Controllers
             return RedirectToAction("Panel");
         }
 
+        [HttpGet]
+        public ActionResult Statystyki()
+        {
+            sprawdzRole();
+            statystykaUzytkownika stat = db.uzytkownik.Where(x => x.nazwa == User.Identity.Name).First().statystykaUzytkownika;
+            return View(stat);
+        }
+
+
         public bool Test(string napis)
         {
-            if(napis != null && napis.Equals("admin"))
+            if (napis != null && napis.Equals("admin"))
             {
                 return true;
             }
@@ -366,5 +366,7 @@ namespace memo.Controllers
         {
             return View();
         }
+
+        
     }
 }

@@ -11,6 +11,7 @@
             </li>
             @if (ViewBag.Rola == "zwykly" || ViewBag.Rola == "admin")
             {
+                <li>@Html.ActionLink("Statystyki", "Statystyki", "Slowko")</li>
                 <li>@Html.ActionLink("Panel", "Panel", "Slowko")</li>
             }
             <li>
