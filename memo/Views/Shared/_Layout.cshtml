@@ -27,13 +27,14 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Strona główna", "Index", "Slowko")</li>
-                    @if (ViewBag.Rola == "admin")
-                    {
-                        <li>@Html.ActionLink("Kokpit", "Kokpit", "Slowko")</li>
-                    }
                     @if (ViewBag.Rola == "zwykly" || ViewBag.Rola == "admin")
                     {
                         <li>@Html.ActionLink("Pytanie", "Pytanie", "Slowko")</li>
+                    }
+                    @if (ViewBag.Rola == "admin")
+                    {
+                        <li>@Html.ActionLink("Dodaj słowo", "NoweSlowo", "Slowko")</li>
+                        <li>@Html.ActionLink("Kokpit", "Kokpit", "Slowko")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

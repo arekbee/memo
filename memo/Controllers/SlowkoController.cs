@@ -348,6 +348,31 @@ namespace memo.Controllers
             return View(stat);
         }
 
+        [HttpGet]
+        public ActionResult NoweSlowo()
+        {
+            sprawdzRole();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult NoweSlowo(slowko nowe)
+        {
+            sprawdzRole();
+            if(db.slowko.Where(x => x.eng.Trim() == nowe.eng.Trim()).Count() > 0)
+            {
+                ViewBag.Istnieje = "Wpisane słowo już istnieje w bazie.";
+                return View(nowe);
+            }
+            if(ModelState.IsValid)
+            {
+                db.slowko.Add(nowe);
+                db.SaveChanges();
+                return RedirectToAction("NoweSlowo");
+            }
+            return View(nowe);
+        }
+
 
         public bool Test(string napis)
         {
