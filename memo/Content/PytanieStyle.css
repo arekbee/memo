@@ -10,6 +10,8 @@
     background: radial-gradient(white, #DCDCDC); /* Standard syntax (must be last) */
     border-radius: 40px;
     -moz-border-radius: 40px;
+    margin-left: auto;
+    margin-right: auto;
 }
 th {
     text-align: center;
@@ -20,4 +22,8 @@ th#dobra {
 }
 th#zla {
     color: red;
+}
+th#button {
+    display:none;
+    
 }

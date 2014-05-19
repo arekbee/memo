@@ -2,8 +2,7 @@
 
 @Styles.Render("~/Content/PytanieStyle.css")
 
-@Scripts.Render("~/Scripts/jquery-1.10.2.js")
-@Scripts.Render("~/Scripts/PytanieScript.js")
+
 
 @using (Html.BeginForm("Pytanie", "Slowko", FormMethod.Post))
 {
@@ -47,7 +46,7 @@
                     </th>
                 </tr>
                 <tr>
-                    <th>
+                    <th id="button">
                         <input type="submit" value="Następna zagadka" class="btn btn-default" />
                     </th>
                 </tr>

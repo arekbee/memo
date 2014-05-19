@@ -315,6 +315,7 @@ namespace memo.Controllers
                 ViewBag.dobre_odpowiedzi = uzytkownik.First().statystykaUzytkownika.dobreOdpowiedzi;
                 ViewBag.zle_odpowiedzi = uzytkownik.First().statystykaUzytkownika.zleOdpowiedzi;
                 db.SaveChanges();
+
             }
 
             return View();
