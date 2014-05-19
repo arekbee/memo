@@ -1,4 +1,5 @@
 ﻿using memo.Controllers;
+using memo.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -9,7 +10,7 @@ namespace memo.Tests.Controllers
     public class SlowkoControllerTest
     {
         [TestMethod]
-        public void ZalogujTest()
+        public void zalogujViewTest()
         {
             //arange
             SlowkoController panel = new SlowkoController();
@@ -36,6 +37,18 @@ namespace memo.Tests.Controllers
             Assert.AreEqual(wynik3, "zwykly");
             Assert.AreEqual(wynik4, "administrator");
         }
+
+        [TestMethod]
+        public void generatePairTest()
+        {
+            SlowkoController panel = new SlowkoController();
+            Pytanie wynik = panel.generatePair();
+
+            Assert.IsNotNull(wynik);
+
+        }
+
+
     }
 
 

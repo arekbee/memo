@@ -288,6 +288,8 @@
     <Content Include="Views\Slowko\_Pytanie.cshtml" />
     <Content Include="Views\Slowko\Pytanie.cshtml" />
     <Content Include="Views\Slowko\Panel.cshtml" />
+    <Content Include="Views\Slowko\_Statystyki.cshtml" />
+    <Content Include="Views\Slowko\Statystyki.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
