@@ -1,6 +1,10 @@
 ﻿@model memo.Models.Pytanie
+
 @Styles.Render("~/Content/PytanieStyle.css")
+
+@Scripts.Render("~/Scripts/jquery-1.10.2.js")
 @Scripts.Render("~/Scripts/PytanieScript.js")
+
 @using (Html.BeginForm("Pytanie", "Slowko", FormMethod.Post))
 {
 <div>
@@ -29,38 +33,39 @@
         </table>
     </div>
 }
-else if (ViewBag.czy_poprawna_odpowiedz)
-{
-    <div id="wynik">
+else {
+<div id="wynik">
         <table>
-            <tr>
-                <th id="dobra">
-                    DOBRA ODPOWIEDŹ!
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    Masz @ViewBag.dobre_odpowiedzi dobrych odpowiedzi i @ViewBag.zle_odpowiedzi złych odpowiedzi.
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <input type="submit" value="Następna zagadka" class="btn btn-default" />
-                </th>
-            </tr>
-        </table>
-    </div>
+            
+                
+@if (ViewBag.czy_poprawna_odpowiedz)
+{
+<tr>
+    <th id="dobra">
+        DOBRA ODPOWIEDŹ!
+    </th>
+</tr>
+    <tr>
+        <th id="dobra">
+            @ViewBag.pytanie - @ViewBag.odpowiedz
+        </th>
+    </tr>
 }
 else
 {
-    <div id="wynik">
-        <table>
             <tr>
                 <th id="zla">
                     ZŁA ODPOWIEDŹ!
                 </th>
             </tr>
             <tr>
+                <th id="zla">
+                    @ViewBag.pytanie - @ViewBag.odpowiedz
+                </th>
+            </tr>
+}
+
+            <tr>
                 <th>
                     Masz @ViewBag.dobre_odpowiedzi dobrych odpowiedzi i @ViewBag.zle_odpowiedzi złych odpowiedzi.
                 </th>
@@ -70,6 +75,7 @@ else
                     <input type="submit" value="Następna zagadka" class="btn btn-default" />
                 </th>
             </tr>
+
         </table>
     </div>
 }
