@@ -299,6 +299,9 @@ namespace memo.Controllers
                 string odpowiedz_uzytkownika = model.odpowiedz_uzytkownika.ToString().Trim();
                 string poprawna_odpowiedz = model.poprawna_odpowiedz.ToString().Trim();
 
+                ViewBag.pytanie = pytanie;
+                ViewBag.odpowiedz = poprawna_odpowiedz;
+
                 if (odpowiedz_uzytkownika.Equals(poprawna_odpowiedz))
                 {
                     ViewBag.czy_poprawna_odpowiedz = true;
