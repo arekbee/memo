@@ -1,4 +1,8 @@
-﻿param ([string]$deployfrom,
+﻿param (
+[Parameter(Mandatory=$True)] 
+[string]$deployfrom,
+
+[Parameter(Mandatory=$True)] 
 [string]$deployToDir)
 
 function Get-DateString
@@ -8,15 +12,30 @@ function Get-DateString
 
 function Backup-OldFile([string]$backupDir)
 {
-    Write-host "Making backup of dir $backupDir"      
-    $parent =[System.IO.Path]::GetDirectoryName( $backupDir)
+    Write-host "Making backup of dir $backupDir"
+    if(Test-Dir $backupDir)
+    {
+        $parent =[System.IO.Path]::GetDirectoryName( $backupDir)
 
-    $dirName = [System.IO.Path]::GetFileName($backupDir)
+        $dirName = [System.IO.Path]::GetFileName($backupDir)
     
-    $backupTo = join-path $parent -ChildPath ($dirName+"_"+(Get-DateString))
+        $backupTo = join-path $parent -ChildPath ($dirName+"_"+(Get-DateString))
 
-    Copy-Item "$backupDir\*" -Destination $backupTo  -Container -Recurse 
-
+        Copy-Item "$backupDir\*" -Destination $backupTo  -Container -Recurse 
+    }
+}
+function Test-Dir([string]$path)
+{
+    if( test-path  $path)
+    { 
+        Write-HOst "Dir exist $path"
+    }
+    else
+    {
+        Write-Host "Cant find dir $path. Creating directory"
+        new-item -Path $path -ItemType directory 
+    }
+    return $true
 }
 
 function Deploy-Artifacts([string]$artifactDir, [string]$deployTo  )
@@ -29,8 +48,15 @@ function Deploy-Artifacts([string]$artifactDir, [string]$deployTo  )
 function Clean-Dir ([string]$dir)
 {
     Write-Host "Cleaning $dir"
-    $removeDir = Join-Path $dir "*"
-    Remove-Item $removeDir -Recurse
+    if(Test-Path $dir)
+    {
+        $removeDir = Join-Path $dir "*"
+        Remove-Item $removeDir -Recurse
+    }
+    else
+    {
+        Write-Host "$dir not exist"
+    }
 }
 
 if(-not([string]::IsNullOrEmpty($deployfrom)) -and -not([string]::IsNullOrEmpty($deployToDir) ))
