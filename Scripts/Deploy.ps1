@@ -21,7 +21,7 @@ function Backup-OldFile([string]$backupDir)
     
         $backupTo = join-path $parent -ChildPath ($dirName+"_"+(Get-DateString))
 
-        Copy-Item "$backupDir\*" -Destination $backupTo  -Container -Recurse 
+        Copy-Item "$backupDir\**" -Destination $backupTo  -Container -Recurse 
     }
 }
 function Test-Dir([string]$path)
